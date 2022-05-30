@@ -4,10 +4,17 @@ using namespace std;
 
 class BTreeNode
 {
+    int t; // minimum degrees
     int sizeNums = 0;
     int *nums;
     int degree = 0;
     BTreeNode **children;
+    BTreeNode(int t)
+    {
+        this->t = t;
+        this->nums = new int[2 * t - 1];
+        this->children = new BTreeNode *[2 * t];
+    }
     bool isLeaf()
     {
         return ((degree > 0) ? 0 : 1);
