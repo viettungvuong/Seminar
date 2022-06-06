@@ -28,6 +28,7 @@ public:
     void borrowFromPrev(int idx);
     void borrowFromNext(int idx);
     void merge(int idx);
+    BTreeNode *search(int k);
     friend class BTree;
 };
 
@@ -398,6 +399,25 @@ void BTree::deletion(int k)
         delete tmp;
     }
     return;
+}
+
+BTreeNode *BTreeNode::search(int k)
+{
+    // Find the first key greater than or equal to k
+    int i = 0;
+    while (i < n && k > keys[i])
+        i++;
+
+    // If the found key is equal to k, return this node
+    if (keys[i] == k)
+        return this;
+
+    // If the key is not found here and this is a leaf node
+    if (leaf == true)
+        return nullptr;
+
+    // Go to the appropriate child
+    return C[i]->search(k);
 }
 
 int main()
